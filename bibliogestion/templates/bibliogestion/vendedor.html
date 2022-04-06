@@ -3,27 +3,25 @@
 {% block content %}
 <div class="container mt-5">
     <h1>Hola vendedor</h1>
-<div class="conteiner px-4 px-lg-5">
+    <div class="conteiner px-4 px-lg-5">
 
-    <p>Esto es un texto de prueba</p>
-    <div class="container mt-5">
+        <p>Esto es un texto de prueba</p>
+    
         {% if formulario.errors %}
         <p style="color: red"> Verificar que los datos sean correctos</p>
         {% endif %}
             
     
-        <form action="/bgestion/vendedores/" method="POST" class="form-group">
+        <form action="/bgestion/vendedor/" method="POST" class="form-group">
             {% csrf_token %}
             <table class="table">
-                {{formulario.as_table}}
+                {{vendedores}}
             </table>
     
             <input type="submit" value="Cargar vendedor" class="btn btn-primary">
         </form>
     
     </div>
-    
-    
     <div class="container mt-5">
         <table class="table">
     
@@ -36,11 +34,11 @@
             </thead>
     
             <tbody>
-                {% for curso in cursos %}
+                {% for v in nuevo_vendedores %}
                     <tr>
-                    <td>{{vendedor.nombre}}</td>
-                    <td>{{vendedor.apellido}}</td>
-                    <td>{{vendedor.dni}}</td>
+                    <td>{{v.nombre}}</td>
+                    <td>{{v.apellido}}</td>
+                    <td>{{v.dni}}</td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -49,7 +47,6 @@
         </table>
     </div>
 
-</div>
 </div>
 
 {% endblock content %}

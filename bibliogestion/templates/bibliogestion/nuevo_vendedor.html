@@ -8,46 +8,20 @@
 </head>
 <body>
     <div class="container mt-5">
-        {% if formulario.errors %}
+        {% if vendedores.errors %}
         <p style="color: red"> Verificar que los datos sean correctos</p>
         {% endif %}
             
     
-        <form action="/bgestion/vendedores/" method="POST" class="form-group">
+        <form action="/bgestion/vendedores/" method="POST">
             {% csrf_token %}
-            <table class="table">
-                {{formulario.as_table}}
+            <table>
+                {{formulario}}
             </table>
     
             <input type="submit" value="Cargar vendedor" class="btn btn-primary">
         </form>
     
-    </div>
-    
-    
-    <div class="container mt-5">
-        <table class="table">
-    
-            <thead>
-                <tr>
-                    <th class="table-success">Nombre</th>
-                    <th class="table-success">Apellido</th>
-                    <th class="table-success">DNI</th>
-                </tr>
-            </thead>
-    
-            <tbody>
-                {% for curso in cursos %}
-                    <tr>
-                    <td>{{vendedor.nombre}}</td>
-                    <td>{{vendedor.apellido}}</td>
-                    <td>{{vendedor.dni}}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-    
-    
-        </table>
     </div>
 </body>
 </html>

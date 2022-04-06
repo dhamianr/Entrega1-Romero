@@ -4,5 +4,15 @@
 <div class="container mt-5">
     <h1>Hola cantidad de libros</h1>
 </div>
+{% if cantidad.errors %}
+    <p style="color:red">Verificar que los datos sean correctos</p>
+{% endif %}
+<form action="/bgestion/libros/" method="POST">
+    {% csrf_token %}
+<table>
+    {{cantidad.as_table}}
+</table>
+    <input type="submit" value="Cargar Inventario">
+</form>
 
 {% endblock content %}

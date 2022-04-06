@@ -5,13 +5,9 @@ from bibliogestion.views import *
 
 urlpatterns = [
     path('',inicio, name="Inicio"),
-    path('cliente/',cliente, name="Clientes"),
-    path('vendedores/',vendedor, name="Vendedores"),
-    path('libros/',cantidad_libros, name="Clibros"),
-    path('cargarlibro/',cargar_libro, name="CargarL"),
-    path('nuevovendedor/', cargar_vendedor, name="CargarV"),
-    path('nuevocliente/',cargar_cliente, name="CargarC"),
-    path('busqueda/',busqueda_libro, name="BusquedaL"),
-    path('buscar/',buscarL)
+    path('libros/',cargar_libro, name="CargarL"),
+    path('vendedor/', cargar_vendedor, name="CargarV"),
+    path('cliente/',cargar_cliente, name="CargarC"),
+    path('buscar/',buscarL, name= "BuscarL")
     
 ]

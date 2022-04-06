@@ -9,14 +9,14 @@ from bibliogestion.models import Libro, Cliente, Vendedor
 def inicio(request):
     return render(request,"bibliogestion/index.html")
 
-def cliente(request):
-    return render(request,"bibliogestion/cliente.html")
+# def cliente(request):
+#     return render(request,"bibliogestion/cliente.html")
 
-def vendedor(request):
-    return render(request,"bibliogestion/vendedor.html")
+# def vendedor(request):
+#     return render(request,"bibliogestion/vendedor.html")
 
-def cantidad_libros(request):
-    return render(request,"bibliogestion/cant_libro.html")
+# def cantidad_libros(request):
+#     return render(request,"bibliogestion/cant_libro.html")
 
 def cargar_libro(request):
 
@@ -26,50 +26,49 @@ def cargar_libro(request):
         if cantidad.is_valid():
             data = cantidad.cleaned_data
 
-            cantidad_nueva = Libro(request.POST['nombre'],request.POST['autor'],request.POST['genero'],request.POST['isbn'],request.POST['cantidad'])
+            cantidad_nueva = Libro(data['nombre'],data['autor'],data['genero'],data['isbn'],data['cantidad'])
             cantidad_nueva.save()
-
-        return render(request, "bibliogestion/index.html")
+            cantidad = CargarLibro()
+            return render(request, "bibliogestion/cant_libro.html",{"formulario": cantidad})
     else:
         cantidad_form = CargarLibro()
-
-    return render(request, "bibliogestion/cargar_libro.html", {"formulario": cantidad_form})
+        return render(request, "bibliogestion/cant_libro.html", {"formulario": cantidad_form})
 
 def cargar_vendedor(request):
+
+    vendedor = Vendedor.objects.all()
+
     if request.method == "POST":
-        vendedor = CargarVendedor(request.POST)
+        vendedores = CargarVendedor(request.POST)
 
-        if vendedor.is_valid():
-            data = vendedor.cleaned_data
+        if vendedores.is_valid():
+            data = vendedores.cleaned_data
 
-            nuevo_vendedor = Libro(data['nombre'],data['apellido'],data['num_dni'])
-            nuevo_vendedor.save()
+            nuevo_vendedores = Vendedor(data['nombre'],data['apellido'],data['num_dni'])
+            nuevo_vendedores.save()
 
-            vendedor = CargarVendedor()
-            return render(request, "bibliogestion/index.html")
+            vendedores = CargarVendedor()
+            return render(request, "bibliogestion/vendedor.html", {"vendedor": vendedor, "formulario": vendedores})
     else:
-        vendedor_form = CargarVendedor()
-        return render(request, "bibliogestion/nuevo_vendedor.html", {"formulario": vendedor_form})
+        vendedores = CargarVendedor()
+        return render(request, "bibliogestion/vendedor.html", {"vendedor": vendedor,"formulario": vendedores})
 
 def cargar_cliente(request):
 
     if request.method == "POST":
         cliente = CargarCliente(request.POST)
 
-        if cliente.is_valid:
+        if cliente.is_valid():
             data = cliente.cleaned_data
 
-            nuevo_cliente = Libro(nombre = data['nombre'],apellido = data['apellido'],num_dni = data['num_dni'],email = data['email'])
-            nuevo_cliente.save()
+            cliente = CargarCliente(data['nombre'],data['apellido'],data['num_dni'],data['email'])
+            cliente.save()
 
-        return render(request, "bibliogestion/index.html")
+            cliente = CargarCliente()
+            return render(request, "bibliogestion/index.html")
     else:
-        cliente_form = CargarVendedor()
-
-    return render(request, "bibliogestion/nuevo_cliente.html", {"formulario": cliente_form})
-
-def busqueda_libro(request):
-    return render(request,"bibliogestion/busquedalibro.html")
+        cliente_form = CargarCliente()
+        return render(request, "bibliogestion/nuevo_cliente.html", {"formulario": cliente_form})
 
 def buscarL(request):
     
@@ -78,9 +77,8 @@ def buscarL(request):
 
     if data:
         try:
-            libro = Libro.objects.get(isbn__icontains=data) #probe con un objects.filter como en las diapo, pero tampoco busca
-            return render(request, 'bibliogestion/busquedalibro.html', {"libro": libro, "data": data})
-
+            libro = Libro.objects.get(isbn__icontains=data) 
+            return render(request, 'bibliogestion/busquedalibro.html', {"nombre": libro, "data": data})
         except Exception as exc:
             print(exc)
             error = "No existe ese libro"
